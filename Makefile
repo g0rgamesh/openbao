@@ -2,7 +2,7 @@
 # Be sure to place this BEFORE `include` directives, if any.
 THIS_FILE := $(lastword $(MAKEFILE_LIST))
 
-GO_CMD?=go
+GO_CMD?=~/go/bin/go
 DOCKER_CMD?=docker
 
 TEST?=$$($(GO_CMD) list ./... github.com/openbao/openbao/api/v2/... github.com/openbao/openbao/sdk/v2/... | grep -v /vendor/ | grep -v /integ)
