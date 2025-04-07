@@ -5,7 +5,7 @@
 # architecture binaries.
 ARG VERSION
 
-FROM golang:${VERSION} AS builder
+FROM golang:1.24.0 AS builder
 
 ARG CGO_ENABLED=0
 ARG BUILD_TAGS
@@ -14,7 +14,7 @@ WORKDIR /go/src/github.com/openbao/openbao
 COPY . .
 
 RUN make bootstrap \
-  && CGO_ENABLED=$CGO_ENABLED BUILD_TAGS="${BUILD_TAGS}" OPENBAO_DEV_BUILD=1 sh -c "'./scripts/build.sh'"
+  && CGO_ENABLED=$CGO_ENABLED BUILD_TAGS="openbao" OPENBAO_DEV_BUILD=1 sh -c "'../build.sh'"
 
 # Docker Image
 
@@ -60,7 +60,7 @@ EXPOSE 8200
 
 # The entry point script uses dumb-init as the top-level process to reap any
 # zombie processes created by OpenBao sub-processes.
-COPY ./scripts/docker/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
 
 # By default you'll get a single-node development server that stores everything
