@@ -29,6 +29,10 @@ RUN addgroup openbao && \
 RUN set -eux; \
     apk add --no-cache ca-certificates libcap su-exec dumb-init tzdata
 
+# Add curl
+RUN set -eux; \
+    apk add --no-cache curl
+
 COPY --from=builder /go/src/github.com/openbao/openbao/bin/bao /bin/bao
 RUN ln -s /bin/bao /bin/vault
 
